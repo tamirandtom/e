@@ -70,7 +70,7 @@
   }
 
   // draw some geome tries
-  var c = new THREE.BoxGeometry( 6, 6, 6 );
+  var c = new THREE.BoxGeometry( 3, 6, 3 );
   var material = new THREE.MeshNormalMaterial( { color: 0xffff00, } );
   var mesh = new THREE.Mesh( c, material, );
   scene.add( mesh );
@@ -97,13 +97,20 @@ if (previsUpright != isUpright)
         moveOut();
     }
 }
+
+
+
+scene.rotation.x =  -e.beta / 180;
+scene.rotation.y =   e.alpha / 180;
+
+
 });
 
 
 
 
   function moveIn() {
-  let target = new THREE.Vector3(0, 0,-3); // create on init
+  let target = new THREE.Vector3(0, 0,-1); // create on init
     animateVector3(mesh.position, target, {
     
     duration: 700, 
@@ -121,7 +128,7 @@ if (previsUpright != isUpright)
 }
 
 function moveOut() {
-  let target = new THREE.Vector3(0, 0,1); // create on init
+  let target = new THREE.Vector3(0, 0,8); // create on init
     animateVector3(mesh.position, target, {
     
     duration: 700, 
