@@ -70,10 +70,13 @@
   }
 
   // draw some geome tries
-  var c = new THREE.BoxGeometry( 3, 6, 3 );
+  var c = new THREE.BoxGeometry( 3, 4, 3 );
   var material = new THREE.MeshNormalMaterial( { color: 0xffff00, } );
-  var mesh = new THREE.Mesh( c, material, );
-  scene.add( mesh );
+  var mesh1 = new THREE.Mesh( c, material, );
+  scene.add( mesh1 );
+  var mesh2 = new THREE.Mesh( c, material, );
+  scene.add( mesh2 );
+  mesh2.position.y=4;
 
   render();
 
@@ -98,10 +101,8 @@ if (previsUpright != isUpright)
     }
 }
 
-
-
-scene.rotation.x =  -e.beta / 180;
-scene.rotation.y =   e.alpha / 180;
+// scene.rotation.x =  -e.beta / 180;
+// scene.rotation.y =   e.alpha / 180;
 
 
 });
@@ -111,37 +112,38 @@ scene.rotation.y =   e.alpha / 180;
 
   function moveIn() {
   let target = new THREE.Vector3(0, 0,-1); // create on init
-    animateVector3(mesh.position, target, {
+  let target2 = new THREE.Vector3(0, 4,-1); // create on init
+  animateVector3(mesh1.position, target, {
+    
+    duration: 700,     
+    easing : TWEEN.Easing.Elastic.Out
+});
+animateVector3(mesh2.position, target2, {
     
     duration: 700, 
+    delay: 100, 
     
-    easing : TWEEN.Easing.Elastic.Out,
-    
-    update: function(d) {
-        console.log("Updating: " + d);
-    },
-    
-    callback : function(){
-        console.log("Completed");
-    }
+    easing : TWEEN.Easing.Elastic.Out
 });
+
 }
 
 function moveOut() {
-  let target = new THREE.Vector3(0, 0,8); // create on init
-    animateVector3(mesh.position, target, {
+  let target = new THREE.Vector3(0, 0,3); // create on init
+  let target2 = new THREE.Vector3(0, 4,3); // create on init
+
+  animateVector3(mesh1.position, target, {
     
     duration: 700, 
     
-    easing : TWEEN.Easing.Elastic.In,
+    easing : TWEEN.Easing.Elastic.Out
+});
+animateVector3(mesh2.position, target2, {
     
-    update: function(d) {
-        console.log("Updating: " + d);
-    },
+    duration: 700, 
+    delay: 100, 
     
-    callback : function(){
-        console.log("Completed");
-    }
+    easing : TWEEN.Easing.Elastic.Out
 });
 }
 
@@ -175,7 +177,8 @@ function animateVector3(vectorToAnimate, target, options){
     // get targets from options or set to defaults
     var to = target || THREE.Vector3(),
         easing = options.easing || TWEEN.Easing.Quadratic.In,
-        duration = options.duration || 2000;
+        duration = options.duration || 2000,
+        delay =  options.delay || 0;
     // create the tween
 
     var tweenVector3 = new TWEEN.Tween(vectorToAnimate)
@@ -191,6 +194,8 @@ function animateVector3(vectorToAnimate, target, options){
           if(options.callback) options.callback();
         });
     // start the tween
+    tweenVector3.delay(delay);
+
     tweenVector3.start();
     // return the tween in case we want to manipulate it later on
     return tweenVector3;
