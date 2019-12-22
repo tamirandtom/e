@@ -23,6 +23,7 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/97/three.min.js'></script>
   <script src='https://threejs.org/examples/js/controls/TrackballControls.js'></script>
   <!-- <script src='https://cdn.jsdelivr.net/npm/gyronorm@2.0.6/dist/gyronorm.complete.min.js'></script> -->
+  <script src='cg.js'></script>
   <script src='h.js'></script>
   <script src='tween.js'></script>
 
@@ -60,9 +61,6 @@
   var rot = 0;
 
   function render() {
-
-    // mesh.rotation.x = rot;
-//   rot=rot+0.01;
     requestAnimationFrame(render);
     renderer.render(scene, camera);
     controls.update();
@@ -73,10 +71,14 @@
   var c = new THREE.BoxGeometry( 3, 4, 3 );
   var material = new THREE.MeshNormalMaterial( { color: 0xffff00, } );
   var mesh1 = new THREE.Mesh( c, material, );
-  scene.add( mesh1 );
   var mesh2 = new THREE.Mesh( c, material, );
+  mesh2.position.y=2;
+  mesh2.position.x=2;
+  mesh2.position.z=-2;
+
+
+  scene.add( mesh1 );
   scene.add( mesh2 );
-  mesh2.position.y=4;
 
   render();
 
@@ -149,25 +151,6 @@ animateVector3(mesh2.position, target2, {
 
 
 
-var mc = new Hammer.Manager(renderer.domElement);
-
-// create a pinch and rotate recognizer
-// these require 2 pointers
-var pinch = new Hammer.Pinch();
-var rotate = new Hammer.Rotate();
-
-// we want to detect both the same time
-pinch.recognizeWith(rotate);
-
-// add to the Manager
-mc.add([pinch, rotate]);
-
-mc.on("pinch rotate", function(ev) {
-   
-    // TODO
-
-
-});
 
 
 
